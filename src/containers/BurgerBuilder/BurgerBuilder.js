@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 
-import Auxiliary from '../../hoc/Auxiliary';
+import Auxiliary from '../../hoc/Auxiliary/Auxiliary';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
+import axios from '../../axios-orders';
 
 // const INGREDIENT_PRICES is also possible
 const ingredientsPrices = {
@@ -19,7 +20,6 @@ class BurgerBuilder extends Component {
   //   super(props);
   //   this.state = {};
   // }
-
   state = {
     ingredients: {
       salad: 0,
@@ -28,7 +28,8 @@ class BurgerBuilder extends Component {
       meat: 0,
     },
     totalPrice: 4,
-    purshasable: false,
+    isPurchasable: false,
+    isPurchasing: false,
   };
 
   addIngredientHandler = type => {
@@ -75,6 +76,7 @@ class BurgerBuilder extends Component {
     this.toggleOrderButton(newIngredients);
   };
 
+  // UI Handler
   toggleOrderButton = updatedIngredients => {
     const ingredients = { ...updatedIngredients };
     const ingrSum = Object.keys(updatedIngredients)
@@ -85,8 +87,38 @@ class BurgerBuilder extends Component {
         return acc + currEl;
       }, 0);
 
-    this.setState({ purshasable: ingrSum > 0 });
+    this.setState({ isPurchasable: ingrSum > 0 });
   };
+
+  showModalHandler = () => {
+    this.setState({ isPurchasing: true });
+  };
+
+  closeModalHandler = () => {
+    this.setState({
+      isPurchasing: false,
+    });
+  };
+
+  continuePurchaseHandler = () => {
+    const order = {
+      ingredients: this.state.ingredients,
+      price: this.state.totalPrice,
+      customer: {
+        name: 'Kalender',
+        email: 'kalender@gmail.com',
+        country: 'Turkey',
+        address: 'Turgut Ozal Bul. 101 Apt.',
+      },
+      deliveryMethod: 'fastest',
+    };
+
+    axios.post('/orders.json', order).then(response => console.log(response));
+
+    this.closeModalHandler();
+  };
+
+  //
 
   render() {
     const disabledInfo = {
@@ -98,8 +130,16 @@ class BurgerBuilder extends Component {
 
     return (
       <Auxiliary>
-        <Modal>
-          <OrderSummary ingredients={this.state.ingredients} />
+        <Modal
+          clicked={this.closeModalHandler}
+          isPurchasing={this.state.isPurchasing}
+        >
+          <OrderSummary
+            closedModal={this.closeModalHandler}
+            continuedPurchase={this.continuePurchaseHandler}
+            ingredients={this.state.ingredients}
+            totalPrice={this.state.totalPrice}
+          />
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
@@ -107,7 +147,8 @@ class BurgerBuilder extends Component {
           deleteIngredient={this.deleteIngredientHandler}
           isDisabled={disabledInfo}
           totalPrice={this.state.totalPrice}
-          purshasable={this.state.purshasable}
+          isPurchasable={this.state.isPurchasable}
+          clicked={this.showModalHandler}
         />
       </Auxiliary>
     );

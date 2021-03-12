@@ -1,6 +1,7 @@
 import React from 'react';
 
-import Auxiliary from '../../../hoc/Auxiliary';
+import Auxiliary from '../../../hoc/Auxiliary/Auxiliary';
+import Button from '../../UI/Button/Button';
 
 const orderSummary = props => {
   // Outputting appropriate <li> items
@@ -18,7 +19,16 @@ const orderSummary = props => {
       <h3>Your Order</h3>
       <p>Here is your following ingredients:</p>
       <ul>{listOfIngredients}</ul>
+      <p>
+        <strong>Total Price: {props.totalPrice.toFixed(2)} $</strong>
+      </p>
       <p>Continue to Checkout?</p>
+      <Button btnType={'Danger'} clicked={props.closedModal}>
+        CANCEL
+      </Button>
+      <Button btnType={'Success'} clicked={props.continuedPurchase}>
+        CONTINUE
+      </Button>
     </Auxiliary>
   );
 };

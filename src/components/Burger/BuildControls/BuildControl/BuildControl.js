@@ -1,5 +1,6 @@
 import React from 'react';
 
+import PropTypes from 'prop-types';
 import classes from './BuildControl.css';
 
 const buildControl = props => {
@@ -18,6 +19,11 @@ const buildControl = props => {
       </button>
     </div>
   );
+};
+
+// PropType Validation (I wrote it for practicing purposes, it's unnecassary tough.)
+buildControl.propTypes = {
+  label: PropTypes.string,
 };
 
 export default buildControl;

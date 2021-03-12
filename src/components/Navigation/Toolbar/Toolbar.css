@@ -1,0 +1,27 @@
+.Toolbar {
+  width: 100%;
+  height: 56px;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 90;
+  background-color: #703b09;
+  padding: 0 1rem;
+  color: #fff;
+  opacity: 0.9;
+}
+
+@media (max-width: 499px) {
+  .OnlyDesktop {
+    display: none;
+  }
+}
+
+@media (min-width: 500px) {
+  .OnlyMobile {
+    display: none;
+  }
+}
