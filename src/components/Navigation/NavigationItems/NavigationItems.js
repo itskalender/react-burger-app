@@ -3,13 +3,13 @@ import React from 'react';
 import classes from './NavigationItems.css';
 import NavigationItem from './NavigationItem/NavigationItem';
 
-const navigationItems = () => {
+const navigationItems = props => {
   return (
     <ul className={classes.NavigationItems}>
-      <NavigationItem isActive={true} to={'/'}>
+      <NavigationItem to="/" exact>
         Burger Builder
       </NavigationItem>
-      <NavigationItem to={'/'}>Checkout</NavigationItem>
+      <NavigationItem to="/my-orders">My Orders</NavigationItem>
     </ul>
   );
 };

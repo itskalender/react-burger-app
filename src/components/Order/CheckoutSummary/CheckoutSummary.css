@@ -1,0 +1,14 @@
+.CheckoutSummary {
+  width: 100%;
+  margin: auto;
+  text-align: center;
+}
+
+.CheckoutSummary h1 {
+  font-weight: 300;
+}
+
+.CheckoutSummary button:first-of-type {
+  margin: 10px;
+  padding: 10px;
+}

@@ -7,7 +7,10 @@ import Backdrop from '../Backdrop/Backdrop';
 class Modal extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     // console.log('[Modal]: shouldComponentUpdate ');
-    return nextProps.isPurchasing !== this.props.isPurchasing;
+    return (
+      nextProps.isPurchasing !== this.props.isPurchasing ||
+      nextProps.children !== this.props.children
+    );
   }
 
   render() {
