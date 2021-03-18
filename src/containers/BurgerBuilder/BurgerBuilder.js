@@ -54,6 +54,7 @@ class BurgerBuilder extends Component {
       ingredients: newIngredients,
       totalPrice: newPrice,
     });
+
     // Toggling Order Button
     this.toggleOrderButton(newIngredients);
   };
@@ -77,6 +78,7 @@ class BurgerBuilder extends Component {
       ingredients: newIngredients,
       totalPrice: newPrice,
     });
+
     // Toggling Order Button
     this.toggleOrderButton(newIngredients);
   };
@@ -117,9 +119,7 @@ class BurgerBuilder extends Component {
       );
     }
     queryParams.push(`price=${this.state.totalPrice.toFixed(2)}`);
-    console.log(queryParams);
     const queryParamsString = queryParams.join('&');
-    console.log(queryParamsString, 'QUERY PARAMS');
 
     /* const ingredients = { ...this.state.ingredients };
     const ingredientsString = Object.keys(ingredients)

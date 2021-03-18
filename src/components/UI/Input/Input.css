@@ -1,0 +1,11 @@
+.InputElement {
+  width: 90%;
+  padding: 0.3rem;
+  margin-bottom: 1rem;
+  outline: none;
+}
+
+.InputElement:focus {
+  background-color: #ffffed;
+  border: 2px solid #b1b6b5;
+}

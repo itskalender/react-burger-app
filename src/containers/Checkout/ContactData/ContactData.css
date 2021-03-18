@@ -10,11 +10,16 @@
 .ContactData h3 {
   font-weight: 400;
 }
-.Inputs {
-  width: 90%;
+
+.ContactData button:first-of-type {
   display: block;
-  margin: 1rem auto;
-  padding: 0.5rem;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+  font-size: 1.2rem;
+  margin: 0 auto 1rem auto;
+
+  text-shadow: 1px 1px 3px #dfdfdf;
 }
 
 @media (min-width: 700px) {
