@@ -14,13 +14,14 @@ class ContactData extends Component {
       postalCode: '',
     },
     loading: false,
+    totalPrice: 0,
   };
 
   orderHandler = () => {
     this.setState({ loading: true });
     const order = {
       ingredients: this.props.ingredients,
-      price: this.state.totalPrice,
+      totalPrice: this.props.totalPrice,
       customer: {
         name: 'Kalender',
         email: 'kalender@gmail.com',
@@ -42,6 +43,7 @@ class ContactData extends Component {
   };
 
   render() {
+    console.log(this.props);
     // Showing Spinner
     let form = (
       <form>

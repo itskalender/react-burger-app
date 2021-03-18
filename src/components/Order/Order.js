@@ -8,18 +8,29 @@ const order = props => {
   // Ingredients
   const ingredients = Object.keys(ingredientsObj).map(ingrKey => {
     return (
-      <p key={ingrKey}>
-        Ingredient: {ingrKey[0].toUpperCase() + ingrKey.slice(1)} (
-        {ingredientsObj[ingrKey]})
-      </p>
+      <span className={classes.IndividualIngredients} key={ingrKey}>
+        {ingrKey[0].toUpperCase() + ingrKey.slice(1)} ({ingredientsObj[ingrKey]}
+        )
+      </span>
     );
   });
 
   return (
     <div className={classes.Order}>
-      <h3>ORDER {props.orderNum + 1}</h3>
-      {ingredients}
-      <p>Price:</p>
+      <h3>ORDER {props.orderNum}</h3>
+      <p>Ingredients: {ingredients}</p>
+      <p>
+        Price: <span style={{ fontWeight: '700' }}>{props.totalPrice} </span>
+        <span
+          style={{
+            fontWeight: '700',
+            color: 'green',
+            fontStyle: 'italic',
+          }}
+        >
+          $
+        </span>
+      </p>
     </div>
   );
 };

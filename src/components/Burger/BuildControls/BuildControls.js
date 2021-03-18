@@ -14,7 +14,18 @@ const buildControls = props => {
   return (
     <div className={classes.BuildControls}>
       <p>
-        Current Price: <strong>{props.totalPrice.toFixed(2)} $</strong>
+        Current Price:{' '}
+        <strong>
+          {props.totalPrice.toFixed(2)}{' '}
+          <span
+            style={{
+              color: 'green',
+              fontStyle: 'italic',
+            }}
+          >
+            $
+          </span>
+        </strong>
       </p>
       {controller.map(cntrl => (
         <BuildControl

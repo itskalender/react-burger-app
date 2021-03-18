@@ -1,5 +1,5 @@
 .Order {
-  width: 70%;
+  width: 90%;
   margin: 1rem auto;
   border: 2px solid #b4b4b4;
   box-shadow: 0px 3px 5px #dfdede;
@@ -11,4 +11,20 @@
   font-weight: 400;
   font-size: 1.3rem;
   text-decoration: underline #40a4c8 3px;
+}
+
+.IndividualIngredients {
+  display: inline-block;
+  padding: 0.3rem;
+  margin: 0.3rem;
+  font-size: 0.85rem;
+  border: 2px #40a4c8 solid;
+  background-color: #fff;
+  border-radius: 0.3rem;
+}
+
+@media (min-width: 600px) {
+  .Order {
+    width: 550px;
+  }
 }
