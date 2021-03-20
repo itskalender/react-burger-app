@@ -13,18 +13,30 @@ class ContactData extends Component {
         elementType: 'input',
         elementConfig: { type: 'text', placeholder: 'Name' },
         value: '',
+        validation: { required: true },
+        isValid: false,
+        touched: false,
+        errMsg: 'Please write a valid name.',
       },
 
       email: {
         elementType: 'input',
         elementConfig: { type: 'email', placeholder: 'Email' },
         value: '',
+        validation: { required: true },
+        isValid: false,
+        touched: false,
+        errMsg: 'Please write a valid email.',
       },
 
       country: {
         elementType: 'input',
         elementConfig: { type: 'text', placeholder: 'Country' },
         value: '',
+        validation: { required: true },
+        isValid: false,
+        touched: false,
+        errMsg: 'Please write a valid country.',
       },
 
       street: {
@@ -34,16 +46,25 @@ class ContactData extends Component {
           placeholder: 'Street',
         },
         value: '',
+        validation: { required: true },
+        isValid: false,
+        touched: false,
+        errMsg: 'Please write a valid street.',
       },
 
       postalCode: {
         elementType: 'input',
         elementConfig: {
-          type: 'number',
+          type: 'text',
           placeholder: 'Postal Code',
         },
         value: '',
+        validation: { required: true, minLength: true, maxLength: true },
+        isValid: false,
+        touched: false,
+        errMsg: 'Please write a valid postal code.',
       },
+
       deliveryMethod: {
         elementType: 'select',
         elementConfig: {
@@ -53,20 +74,33 @@ class ContactData extends Component {
           ],
         },
         value: 'fastest',
+        validation: {},
+        isValid: true,
       },
     },
+    formIsValid: false,
     loading: false,
     totalPrice: 0,
   };
 
   // Sendind data to RestAPI
-  orderHandler = () => {
+  orderHandler = e => {
+    e.preventDefault(); // It's not necessary in here for me, why?
     this.setState({ loading: true });
+
+    // Adjust sending data before submiting
+    const contactData = {};
+    for (let inputIdentifier in this.state.contactData) {
+      contactData[inputIdentifier] = this.state.contactData[
+        inputIdentifier
+      ].value;
+    }
     const order = {
       ingredients: this.props.ingredients,
       totalPrice: this.props.totalPrice,
-      contactData: this.state.contactData,
+      contactData: contactData,
     };
+
     axios
       .post('/orders.json', order)
       .then(response => {
@@ -78,14 +112,51 @@ class ContactData extends Component {
       });
   };
 
+  checkValidity = (inputValue, ruleObj) => {
+    let isValid = true;
+
+    if (ruleObj.required) {
+      isValid = inputValue.trim() !== '' && isValid;
+    }
+    if (ruleObj.minLength) {
+      isValid = inputValue.length >= 5 && isValid;
+    }
+    if (ruleObj.maxLength) {
+      isValid = inputValue.length <= 5 && isValid;
+    }
+
+    return isValid;
+  };
+
   // Input Changing
   inputChangedHandler = (event, changedInput) => {
     const updatedContactData = { ...this.state.contactData };
     const updatedInputEl = { ...updatedContactData[changedInput] };
     updatedInputEl.value = event.target.value; // Değiştireceğimiz yere kadar kopyalayarak indik.
+
+    // Check Validity
+    updatedInputEl.isValid = this.checkValidity(
+      updatedInputEl.value,
+      updatedInputEl.validation
+    );
+
+    // Changing Input State to Touch
+    updatedInputEl.touched = true;
+
+    // Update state
     updatedContactData[changedInput] = updatedInputEl; // Daha sonra değiştirerek yukarı çıktık.
+
+    // Checking Form Validity
+    let formIsValid = true;
+    for (let inputEl in updatedContactData) {
+      formIsValid = updatedContactData[inputEl].isValid && formIsValid;
+    }
+    // Debugging
+    console.log(formIsValid);
+
     this.setState({
       contactData: updatedContactData,
+      formIsValid: formIsValid,
     });
   };
 
@@ -96,7 +167,6 @@ class ContactData extends Component {
     for (let inputName in contactDataObj) {
       contactDataArr.push({ ...contactDataObj[inputName], id: inputName });
     }
-    console.log(contactDataArr);
     const inputs = contactDataArr.map(inputData => {
       return (
         <Input
@@ -104,6 +174,10 @@ class ContactData extends Component {
           elementType={inputData.elementType}
           elementConfig={inputData.elementConfig}
           value={inputData.value}
+          valid={inputData.isValid}
+          // shouldValidate={inputData.validation} // Dropbox'ı bu şekilde de ilk başta isValid = false yapmaktan kurtarabilirdik.
+          touched={inputData.touched}
+          errMsg={inputData.errMsg}
           changed={event => this.inputChangedHandler(event, inputData.id)}
         />
       );
@@ -111,9 +185,9 @@ class ContactData extends Component {
 
     // Showing Spinner When Send the Contact-Form
     let form = (
-      <form>
+      <form onSubmit={this.orderHandler}>
         {inputs}
-        <Button btnType="Success" clicked={this.orderHandler}>
+        <Button btnType="Success" disabled={!this.state.formIsValid}>
           ORDER
         </Button>
       </form>

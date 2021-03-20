@@ -14,7 +14,11 @@ const burger = props => {
       return acc.concat(currEl);
     }, []);
   if (transformedIngredients.length === 0) {
-    transformedIngredients = <p>Please start adding ingredients!</p>;
+    transformedIngredients = (
+      <p style={{ letterSpacing: '2px', fontStyle: 'italic' }}>
+        Please start adding ingredients!
+      </p>
+    );
   }
   return (
     <div className={classes.Burger}>

@@ -15,11 +15,22 @@
   display: block;
   text-align: center;
   margin: 0;
+  margin: 1rem auto 1rem auto;
   padding: 0;
   font-size: 1.2rem;
-  margin: 0 auto 1rem auto;
-
+  letter-spacing: 2px;
   text-shadow: 1px 1px 3px #dfdfdf;
+}
+
+.ContactData button:first-of-type:hover {
+  color: #53880a;
+  text-shadow: 3px 3px 3px #c0c0c0;
+}
+
+.ContactData button:first-of-type:disabled {
+  color: #ccc;
+  text-shadow: none;
+  cursor: not-allowed;
 }
 
 @media (min-width: 700px) {
