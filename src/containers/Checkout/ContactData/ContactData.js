@@ -6,6 +6,8 @@ import classes from './ContactData.css';
 import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 import Spinner from '../../../components/UI/Spinner/Spinner';
+import * as orderActions from '../../../store/actions/index';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 class ContactData extends Component {
   state = {
@@ -80,14 +82,12 @@ class ContactData extends Component {
       },
     },
     formIsValid: false,
-    loading: false,
     totalPrice: 0,
   };
 
   // Sendind data to RestAPI
   orderHandler = e => {
     e.preventDefault(); // It's not necessary in here for me, why?
-    this.setState({ loading: true });
 
     // Adjust sending data before submiting
     const contactData = {};
@@ -96,21 +96,14 @@ class ContactData extends Component {
         inputIdentifier
       ].value;
     }
+
     const order = {
       ingredients: this.props.ings,
       totalPrice: this.props.price,
       contactData: contactData,
     };
-
-    axios
-      .post('/orders.json', order)
-      .then(response => {
-        this.props.history.replace('/');
-        return this.setState({ loading: false });
-      })
-      .catch(error => {
-        return this.setState({ loading: false });
-      });
+    // Sending to BackEnd
+    this.props.onOrderHandler(order);
   };
 
   checkValidity = (inputValue, ruleObj) => {
@@ -193,7 +186,7 @@ class ContactData extends Component {
         </Button>
       </form>
     );
-    if (this.state.loading) {
+    if (this.props.loading) {
       form = <Spinner />;
     }
 
@@ -208,9 +201,19 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
   return {
-    ings: state.ingredients,
-    price: state.totalPrice,
+    ings: state.burgerBuilder.ingredients,
+    price: state.burgerBuilder.totalPrice,
+    loading: state.order.loading,
   };
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+  return {
+    onOrderHandler: orderData => dispatch(orderActions.sendOrder(orderData)),
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(ContactData, axios));
