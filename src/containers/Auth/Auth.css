@@ -1,0 +1,35 @@
+.Auth {
+  width: 90%;
+  margin: 12rem auto 0rem auto;
+  background-color: #fafafa;
+  border: 2px solid #b4b4b4;
+  border-radius: 1rem;
+  box-shadow: 0px 3px 5px #dfdede;
+  text-align: center;
+}
+
+.Auth input {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.Auth form button:first-of-type {
+  margin: 0.5rem;
+  padding: 0.5rem;
+}
+.Auth form button:first-of-type:hover {
+  text-decoration: underline #40a4c8 3px;
+}
+
+.Auth > button:first-of-type {
+  font-size: 0.7rem;
+  font-style: italic;
+  margin: 0;
+  padding: 0.5rem;
+}
+
+@media (min-width: 500px) {
+  .Auth {
+    width: 450px;
+  }
+}

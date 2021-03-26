@@ -1,16 +1,19 @@
-// for BurgerBuilder.js
 export const ADD_INGREDIENT = 'ADD_INGREDIENT';
 export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 export const SET_INGREDIENTS = 'SET_INGREDIENTS';
 export const FETCH_INGREDIENTS_FAILED = 'FETCH_INGREDIENTS_FAILED';
-// for Order.js
+
 export const SEND_ORDER_SUCCEEDED = 'SEND_ORDER_SUCCEEDED';
 export const SEND_ORDER_FAILED = 'SEND_ORDER_FAILED';
+export const INIT_FETCH_ORDER = 'INIT_FETCH_ORDER';
 export const FETCH_ORDER_SUCCEEDED = 'FETCH_ORDER_SUCCEEDED';
 export const FETCH_ORDER_FAILED = 'FETCH_ORDER_FAILED';
-export const INIT_FETCH_ORDER = 'INIT_FETCH_ORDER';
-// for UI
+
 export const SHOW_LOADING = 'SHOW_LOADING';
-//
+
 export const INIT_PURCHASE = 'INIT_PURCHASE';
-// for Orders page
+
+export const INIT_AUTH = 'INIT_AUTH';
+export const AUTH_SUCCEEDED = 'AUTH_SUCCEEDED';
+export const AUTH_FAILED = 'AUTH_FAILED';
+export const AUTH_LOGOUT = 'AUTH_LOGOUT';

@@ -62,7 +62,7 @@ class ContactData extends Component {
           placeholder: 'Postal Code',
         },
         value: '',
-        validation: { required: true, minLength: true, maxLength: true },
+        validation: { required: true, minLength: 6, maxLength: 6 },
         isValid: false,
         touched: false,
         errMsg: 'Please write a valid postal code.',
@@ -102,7 +102,7 @@ class ContactData extends Component {
       contactData: contactData,
     };
     // Sending to BackEnd
-    this.props.onOrderHandler(order);
+    this.props.onOrderHandler(order, this.props.token);
   };
 
   checkValidity = (inputValue, ruleObj) => {
@@ -112,10 +112,10 @@ class ContactData extends Component {
       isValid = inputValue.trim() !== '' && isValid;
     }
     if (ruleObj.minLength) {
-      isValid = inputValue.length >= 5 && isValid;
+      isValid = inputValue.length >= ruleObj.minLength && isValid;
     }
     if (ruleObj.maxLength) {
-      isValid = inputValue.length <= 5 && isValid;
+      isValid = inputValue.length <= ruleObj.maxLength && isValid;
     }
 
     return isValid;
@@ -203,12 +203,14 @@ const mapStateToProps = state => {
     ings: state.burgerBuilder.ingredients,
     price: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
+    token: state.auth.idToken,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderHandler: orderData => dispatch(actions.sendOrder(orderData)),
+    onOrderHandler: (orderData, token) =>
+      dispatch(actions.sendOrder(orderData, token)),
   };
 };
 

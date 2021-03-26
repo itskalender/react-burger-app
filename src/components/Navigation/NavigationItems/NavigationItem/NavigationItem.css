@@ -2,6 +2,7 @@
 .NavigationItem {
   margin: 1rem 0;
   text-align: center;
+  font-size: 0.9rem;
 }
 
 .NavigationItem a {
@@ -25,7 +26,7 @@
   }
 
   .NavigationItem a {
-    display: block;
+    display: inline-block;
     height: 100%;
     color: #fff;
     text-decoration: none;

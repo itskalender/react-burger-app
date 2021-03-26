@@ -1,0 +1,22 @@
+import React from 'react';
+import classes from './AuthError.css';
+
+const authError = props => {
+  const outputErrorMessage = errMsg => {
+    switch (errMsg) {
+      case 'INVALID_EMAIL':
+        return <p className={classes.ErrorMsg}>Please write a valid email</p>;
+      case 'MISSING_PASSWORD':
+        return <p className={classes.ErrorMsg}>Please write a password</p>;
+      case 'EMAIL_EXISTS':
+        return (
+          <p className={classes.ErrorMsg}>This email has already been taken</p>
+        );
+      default:
+        return <p className={classes.ErrorMsg}>{props.errMsg}</p>;
+    }
+  };
+  return outputErrorMessage(props.errMsg);
+};
+
+export default authError;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-// You are using global css. Be careful.
+//  NOTE : You are using global css. Be careful.
 import classes from './Input.css';
 
 const input = props => {

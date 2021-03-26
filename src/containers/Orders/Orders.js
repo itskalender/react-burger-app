@@ -10,9 +10,8 @@ import Spinner from '../../components/UI/Spinner/Spinner';
 
 class Orders extends Component {
   componentDidMount() {
-    // Fetching Orders
-    this.props.onFetchOrders();
-  } // Max added 'unique' ids into datas but i didn't, i use indexes for keys.
+    this.props.onFetchOrders(this.props.token);
+  }
 
   render() {
     let order = <Spinner />;
@@ -42,13 +41,14 @@ const mapStateToProps = state => {
   return {
     orders: state.order.orders,
     loading: state.order.loading,
+    token: state.auth.idToken,
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    onFetchOrders: () => {
-      dispatch(actions.fetchOrderStart());
+    onFetchOrders: token => {
+      dispatch(actions.fetchOrderStart(token));
     },
   };
 };
