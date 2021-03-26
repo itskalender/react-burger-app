@@ -20,7 +20,10 @@ const order = props => {
       <h3>ORDER {props.orderNum}</h3>
       <p>Ingredients: {ingredients}</p>
       <p>
-        Price: <span style={{ fontWeight: '700' }}>{props.totalPrice} </span>
+        Price:{' '}
+        <span style={{ fontWeight: '700' }}>
+          {props.totalPrice.toFixed(2)}{' '}
+        </span>
         <span
           style={{
             fontWeight: '700',

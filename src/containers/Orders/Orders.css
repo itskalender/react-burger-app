@@ -4,3 +4,13 @@
   padding: 1rem;
   text-align: center;
 }
+
+.Orders h2 {
+  width: 50%;
+  margin: 1rem auto;
+  padding: 2rem;
+  border: 2px solid #703b09;
+  border-radius: 1rem;
+  font-size: 1.2rem;
+  text-decoration: underline 3px #40a4c8;
+}

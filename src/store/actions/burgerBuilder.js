@@ -16,18 +16,17 @@ export const deleteIngredients = ingName => {
 };
 
 //
-const sendError = error => {
-  return {
-    type: actionTypes.FETCH_INGREDIENTS_FAILED,
-    error: error,
-  };
-};
-
 // Action itself
-const fetchIngredients = ingrs => {
+const setIngredients = ingrs => {
   return {
     type: actionTypes.SET_INGREDIENTS,
     ingredients: ingrs,
+  };
+};
+// for Error
+const fetchIngredientsFailed = () => {
+  return {
+    type: actionTypes.FETCH_INGREDIENTS_FAILED,
   };
 };
 
@@ -38,7 +37,7 @@ export const initIngredients = () => {
       .get(
         'https://react-burger-app-9c122-default-rtdb.firebaseio.com/ingredients.json'
       )
-      .then(response => dispatch(fetchIngredients(response.data)))
-      .catch(error => dispatch(sendError(error)));
+      .then(response => dispatch(setIngredients(response.data)))
+      .catch(error => dispatch(fetchIngredientsFailed()));
   };
 };

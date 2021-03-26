@@ -16,11 +16,66 @@ const sendOrderFailed = error => {
   };
 };
 
+const showLoading = () => {
+  return {
+    type: actionTypes.SHOW_LOADING,
+    loading: true,
+  };
+};
+
+export const initPurchase = () => {
+  return {
+    type: actionTypes.INIT_PURCHASE,
+  };
+};
+
 export const sendOrder = orderData => {
   return dispatch => {
+    dispatch(showLoading());
     axios
       .post('/orders.json', orderData)
-      .then(res => dispatch(sendOrderSucceeded(res.data.name, orderData)))
+      .then(res => {
+        dispatch(sendOrderSucceeded(res.data.name, orderData));
+      })
       .catch(error => dispatch(sendOrderFailed(error.message)));
+  };
+};
+
+//
+
+const fetchOrderSucceeded = orders => {
+  return {
+    type: actionTypes.FETCH_ORDER_SUCCEEDED,
+    orders: orders,
+  };
+};
+
+const fetchOrderFailed = error => {
+  return {
+    type: actionTypes.FETCH_ORDER_FAILED,
+  };
+};
+
+export const initFetchOrder = () => {
+  return {
+    type: actionTypes.INIT_FETCH_ORDER,
+  };
+};
+
+export const fetchOrderStart = () => {
+  return dispatch => {
+    dispatch(initFetchOrder());
+    let ordersData = [];
+    axios
+      .get('/orders.json')
+      .then(response => {
+        const datasObj = response.data;
+        const arr = Object.entries(datasObj);
+        arr.forEach(data => ordersData.push(data[1]));
+        dispatch(fetchOrderSucceeded(ordersData));
+      })
+      .catch(error => {
+        dispatch(fetchOrderFailed(error));
+      });
   };
 };

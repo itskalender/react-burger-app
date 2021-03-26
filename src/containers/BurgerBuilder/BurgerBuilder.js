@@ -9,7 +9,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import axios from '../../axios-orders';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import Spinner from '../../components/UI/Spinner/Spinner';
-import * as burgerBuilderActions from '../../store/actions/index';
+import * as actions from '../../store/actions/index';
 
 class BurgerBuilder extends Component {
   state = {
@@ -21,7 +21,6 @@ class BurgerBuilder extends Component {
     this.props.onInitIngredients();
   }
 
-  // UI Handler
   toggleOrderButton = updatedIngredients => {
     if (!updatedIngredients) return false;
     const ingredients = { ...updatedIngredients };
@@ -46,9 +45,9 @@ class BurgerBuilder extends Component {
     });
   };
 
-  // Sending Form to Dummy Backend
   continuePurchaseHandler = () => {
     this.props.history.push('/checkout');
+    this.props.onInitPurchase();
   };
 
   render() {
@@ -60,13 +59,26 @@ class BurgerBuilder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0;
     }
 
-    // Conditionally Showing Spinner
-    let orderSummary = <Spinner />;
+    // let orderSummary = <Spinner />;
+    let orderSummary = null;
 
     // Waiting Ingredients from Backend
     let burger = <Spinner />;
+
     if (this.props.ings) {
-      burger = <Burger ingredients={this.props.ings} />;
+      burger = (
+        <Auxiliary>
+          <Burger ingredients={this.props.ings} />
+          <BuildControls
+            addIngredient={this.props.onAddIngredient}
+            deleteIngredient={this.props.onDeleteIngredient}
+            isDisabled={disabledInfo}
+            totalPrice={this.props.price}
+            isPurchasable={this.toggleOrderButton(this.props.ings)}
+            clicked={this.showModalHandler}
+          />
+        </Auxiliary>
+      );
       orderSummary = (
         <OrderSummary
           closedModal={this.closeModalHandler}
@@ -93,8 +105,7 @@ class BurgerBuilder extends Component {
             borderRadius: '1rem',
           }}
         >
-          We're sorry. Couldn't get the data from server. Error messsage is:{' '}
-          {this.props.err.message}
+          We're sorry. Couldn't get the data from server.
         </p>
       );
     }
@@ -108,14 +119,6 @@ class BurgerBuilder extends Component {
           {orderSummary}
         </Modal>
         {burger}
-        <BuildControls
-          addIngredient={this.props.onAddIngredient}
-          deleteIngredient={this.props.onDeleteIngredient}
-          isDisabled={disabledInfo}
-          totalPrice={this.props.price}
-          isPurchasable={this.toggleOrderButton(this.props.ings)}
-          clicked={this.showModalHandler}
-        />
       </Auxiliary>
     );
   }
@@ -131,11 +134,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddIngredient: ingName =>
-      dispatch(burgerBuilderActions.addIngredient(ingName)),
-    onDeleteIngredient: ingName =>
-      dispatch(burgerBuilderActions.deleteIngredients(ingName)),
-    onInitIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
+    onAddIngredient: ingName => dispatch(actions.addIngredient(ingName)),
+    onDeleteIngredient: ingName => dispatch(actions.deleteIngredients(ingName)),
+    onInitIngredients: () => dispatch(actions.initIngredients()),
+    onInitPurchase: () => dispatch(actions.initPurchase()),
   };
 };
 

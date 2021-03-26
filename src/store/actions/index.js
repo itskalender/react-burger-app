@@ -1,6 +1,7 @@
+// Just for grouping exports
 export {
   addIngredient,
   deleteIngredients,
   initIngredients,
 } from './burgerBuilder';
-export { sendOrder } from './order';
+export { sendOrder, initPurchase, fetchOrderStart } from './order';

@@ -6,7 +6,7 @@ import classes from './ContactData.css';
 import axios from '../../../axios-orders';
 import Input from '../../../components/UI/Input/Input';
 import Spinner from '../../../components/UI/Spinner/Spinner';
-import * as orderActions from '../../../store/actions/index';
+import * as actions from '../../../store/actions/index';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 
 class ContactData extends Component {
@@ -96,7 +96,6 @@ class ContactData extends Component {
         inputIdentifier
       ].value;
     }
-
     const order = {
       ingredients: this.props.ings,
       totalPrice: this.props.price,
@@ -209,7 +208,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onOrderHandler: orderData => dispatch(orderActions.sendOrder(orderData)),
+    onOrderHandler: orderData => dispatch(actions.sendOrder(orderData)),
   };
 };
 
