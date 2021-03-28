@@ -100,6 +100,7 @@ class ContactData extends Component {
       ingredients: this.props.ings,
       totalPrice: this.props.price,
       contactData: contactData,
+      userId: this.props.localId,
     };
     // Sending to BackEnd
     this.props.onOrderHandler(order, this.props.token);
@@ -204,6 +205,7 @@ const mapStateToProps = state => {
     price: state.burgerBuilder.totalPrice,
     loading: state.order.loading,
     token: state.auth.idToken,
+    localId: state.auth.localId,
   };
 };
 
