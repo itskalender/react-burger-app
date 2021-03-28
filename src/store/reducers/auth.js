@@ -6,6 +6,7 @@ const initialState = {
   localId: null,
   loading: false,
   error: null,
+  directedPath: '/',
 };
 
 const initAuth = state => {
@@ -34,6 +35,10 @@ const authLogout = state => {
   });
 };
 
+const setDirectedPath = (state, action) => {
+  return updateObject(state, { directedPath: action.path });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.INIT_AUTH:
@@ -44,6 +49,8 @@ const reducer = (state = initialState, action) => {
       return authFailed(state, action);
     case actionTypes.AUTH_LOGOUT:
       return authLogout(state);
+    case actionTypes.SET_DIRECTED_PATH:
+      return setDirectedPath(state, action);
     default:
       return state;
   }

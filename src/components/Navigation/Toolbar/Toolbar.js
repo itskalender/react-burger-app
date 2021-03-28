@@ -9,12 +9,9 @@ const toolbar = props => {
   return (
     <header className={classes.Toolbar}>
       <DrawerToggle clicked={props.clicked} />
-      {/* <div className={classes.OnlyMobile} onClick={props.clicked}>
-        Menu
-      </div> */}
       <Logo />
       <nav style={{ height: '100%' }} className={classes.OnlyDesktop}>
-        <NavigationItems />
+        <NavigationItems isAuthenticated={props.isAuthenticated} />
       </nav>
     </header>
   );

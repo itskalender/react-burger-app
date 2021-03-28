@@ -7,6 +7,7 @@ import Button from '../../components/UI/Button/Button';
 import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import AuthError from './AuthError/AuthError';
+import { Redirect } from 'react-router';
 
 class Auth extends Component {
   state = {
@@ -32,6 +33,13 @@ class Auth extends Component {
     },
     isSignup: true,
   };
+
+  componentDidMount() {
+    if (!this.props.building && this.props.directedPath !== '/') {
+      // QUESTION : neden 2.ci koşul var?
+      this.props.onSetRedirectPath('/');
+    }
+  }
 
   checkValidity = (inputValue, ruleObj) => {
     let isValid = true;
@@ -124,6 +132,7 @@ class Auth extends Component {
 
     return (
       <div className={classes.Auth}>
+        {this.props.idToken ? <Redirect to={this.props.directedPath} /> : null}
         {errorMsg}
         <form onSubmit={this.formSubmitHandler}>
           {inputs}
@@ -143,12 +152,16 @@ const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
+    idToken: state.auth.idToken !== null,
+    directedPath: state.auth.directedPath,
+    building: state.burgerBuilder.building,
   };
 };
 const mapDispatchToProps = dispatch => {
   return {
     onAuth: (email, password, isSignup) =>
       dispatch(actions.auth(email, password, isSignup)),
+    onSetRedirectPath: path => dispatch(actions.setDirectedPath(path)),
   };
 };
 

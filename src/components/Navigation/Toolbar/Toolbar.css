@@ -19,9 +19,3 @@
     display: none;
   }
 }
-
-@media (min-width: 500px) {
-  .OnlyMobile {
-    display: none;
-  }
-}
