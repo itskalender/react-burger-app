@@ -8,6 +8,7 @@ import Input from '../../../components/UI/Input/Input';
 import Spinner from '../../../components/UI/Spinner/Spinner';
 import * as actions from '../../../store/actions/index';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import { updateObject, checkValidity } from '../../../shared/utility';
 
 class ContactData extends Component {
   state = {
@@ -106,47 +107,24 @@ class ContactData extends Component {
     this.props.onOrderHandler(order, this.props.token);
   };
 
-  checkValidity = (inputValue, ruleObj) => {
-    let isValid = true;
-
-    if (ruleObj.required) {
-      isValid = inputValue.trim() !== '' && isValid;
-    }
-    if (ruleObj.minLength) {
-      isValid = inputValue.length >= ruleObj.minLength && isValid;
-    }
-    if (ruleObj.maxLength) {
-      isValid = inputValue.length <= ruleObj.maxLength && isValid;
-    }
-
-    return isValid;
-  };
-
   // Input Changing
   inputChangedHandler = (event, changedInput) => {
-    const updatedContactData = { ...this.state.contactData };
-    const updatedInputEl = { ...updatedContactData[changedInput] };
-    updatedInputEl.value = event.target.value; // Değiştireceğimiz yere kadar kopyalayarak indik.
-
-    // Check Validity
-    updatedInputEl.isValid = this.checkValidity(
-      updatedInputEl.value,
-      updatedInputEl.validation
-    );
-
-    // Changing Input State to Touch
-    updatedInputEl.touched = true;
-
-    // Update state
-    updatedContactData[changedInput] = updatedInputEl; // Daha sonra değiştirerek yukarı çıktık.
+    const updatedContactData = updateObject(this.state.contactData, {
+      [changedInput]: updateObject(this.state.contactData[changedInput], {
+        value: event.target.value,
+        isValid: checkValidity(
+          event.target.value,
+          this.state.contactData[changedInput].validation
+        ),
+        touched: true,
+      }),
+    });
 
     // Checking Form Validity
     let formIsValid = true;
     for (let inputEl in updatedContactData) {
       formIsValid = updatedContactData[inputEl].isValid && formIsValid;
     }
-    // Debugging
-    console.log(formIsValid);
 
     this.setState({
       contactData: updatedContactData,

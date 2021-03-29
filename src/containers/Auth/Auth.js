@@ -8,6 +8,7 @@ import * as actions from '../../store/actions/index';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import AuthError from './AuthError/AuthError';
 import { Redirect } from 'react-router';
+import { updateObject, checkValidity } from '../../shared/utility';
 
 class Auth extends Component {
   state = {
@@ -41,44 +42,20 @@ class Auth extends Component {
     }
   }
 
-  checkValidity = (inputValue, ruleObj) => {
-    let isValid = true;
-
-    if (ruleObj.required) {
-      isValid = inputValue.trim() !== '' && isValid;
-    }
-    if (ruleObj.minLength) {
-      isValid = inputValue.length >= ruleObj.minLength && isValid;
-    }
-    if (ruleObj.maxLength) {
-      isValid = inputValue.length <= ruleObj.maxLength && isValid;
-    }
-
-    return isValid;
-  };
-
   inputChangedHandler = (event, changedInput) => {
-    const updatedLoginData = { ...this.state.loginData };
-    const updatedInputEl = { ...updatedLoginData[changedInput] };
-    updatedInputEl.value = event.target.value;
-
-    updatedInputEl.isValid = this.checkValidity(
-      updatedInputEl.value,
-      updatedInputEl.validation
-    );
-
-    updatedInputEl.touched = true;
-
-    updatedLoginData[changedInput] = updatedInputEl;
-
-    let formIsValid = true;
-    for (let inputEl in updatedLoginData) {
-      formIsValid = updatedLoginData[inputEl].isValid && formIsValid;
-    }
+    const updatedLoginData = updateObject(this.state.loginData, {
+      [changedInput]: updateObject(this.state.loginData[changedInput], {
+        value: event.target.value,
+        isValid: checkValidity(
+          event.target.value,
+          this.state.loginData[changedInput].validation
+        ),
+        touched: true,
+      }),
+    });
 
     this.setState({
       loginData: updatedLoginData,
-      formIsValid: formIsValid,
     });
   };
 
@@ -132,7 +109,9 @@ class Auth extends Component {
 
     return (
       <div className={classes.Auth}>
-        {this.props.idToken ? <Redirect to={this.props.directedPath} /> : null}
+        {this.props.isAuthenticated ? (
+          <Redirect to={this.props.directedPath} />
+        ) : null}
         {errorMsg}
         <form onSubmit={this.formSubmitHandler}>
           {inputs}
@@ -152,7 +131,7 @@ const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
     error: state.auth.error,
-    idToken: state.auth.idToken !== null,
+    isAuthenticated: state.auth.idToken !== null,
     directedPath: state.auth.directedPath,
     building: state.burgerBuilder.building,
   };

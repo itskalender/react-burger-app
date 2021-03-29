@@ -12,6 +12,10 @@ const authError = props => {
         return (
           <p className={classes.ErrorMsg}>This email has already been taken</p>
         );
+      case 'EMAIL_NOT_FOUND':
+        return <p className={classes.ErrorMsg}>This email is not found</p>;
+      case 'INVALID_PASSWORD':
+        return <p className={classes.ErrorMsg}>This password is not correct</p>;
       default:
         return <p className={classes.ErrorMsg}>{props.errMsg}</p>;
     }

@@ -18,6 +18,7 @@ const sideDrawer = props => {
           classes.SideDrawer,
           props.isShowingSideDrawer ? classes.Open : classes.Close,
         ].join(' ')}
+        onClick={props.clicked}
       >
         <div className={classes.logoContainer}>
           <Logo />
