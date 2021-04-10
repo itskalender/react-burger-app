@@ -4,4 +4,4 @@ Burger App is a course project designed for [React - The Complete Guide (incl Ho
 
 ### Demo
 
-- [Here you can find the final version of this project.](https://my-burger-kalender.netlify.app/)
+- [Here](https://my-burger-kalender.netlify.app/) you can find the final version of this project.
