@@ -10,4 +10,8 @@ export {
   authLogout,
   setDirectedPath,
   autoCheckAndLogin,
+  authLogoutSucceeded,
+  authSucceeded,
+  authFailed,
+  checkAuthTimeout,
 } from './auth';
